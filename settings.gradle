@@ -1,1 +1,4 @@
-include ':app', ':common', ':backend'
+include ':client-module', ':oauth-module', ':business-module'
+include ':common'
+//include ':client-module'
+//include ':oauth-module'

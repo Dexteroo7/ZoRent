@@ -30,13 +30,13 @@ interface FirebaseUser {
     String getProvider();
 
     /**
-     * User must have a name
+     * Customer must have a name
      * @return the full name
      */
     String getFullName();
 
     /**
-     * User should have a profile pic
+     * Customer should have a profile pic
      * @return the link to profile pic
      */
     Link getProfilePic();

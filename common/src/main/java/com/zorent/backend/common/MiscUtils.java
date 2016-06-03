@@ -1,6 +1,8 @@
 package com.zorent.backend.common;
 
+import com.google.api.server.spi.auth.common.User;
 import com.google.appengine.api.datastore.Blob;
+import com.google.appengine.api.datastore.GeoPt;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
@@ -100,20 +102,35 @@ public enum MiscUtils {
         return getKeyBuilder(type, Iterables.cycle(ids));
     }
 
-//    public static <T> String seqToString(Iterable<T> items) {
-//
-//        final StringBuilder sb = new StringBuilder();
-//        sb.append('[');
-//        boolean needSeparator = false;
-//        for (T x : items) {
-//            if (needSeparator)
-//                sb.append(' ');
-//            sb.append(x.toString());
-//            needSeparator = true;
-//        }
-//        sb.append(']');
-//        return sb.toString();
-//    }
+    public static <T> String seqToString(Iterable<T> items) {
+
+        final StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        boolean needSeparator = false;
+        for (T x : items) {
+            if (needSeparator)
+                sb.append(' ');
+            sb.append(x.toString());
+            needSeparator = true;
+        }
+        sb.append(']');
+        return sb.toString();
+    }
+
+    public static <T extends Enum> String enumToString(Iterable<T> items) {
+
+        final StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        boolean needSeparator = false;
+        for (T x : items) {
+            if (needSeparator)
+                sb.append(',');
+            sb.append(x.name());
+            needSeparator = true;
+        }
+        sb.append(']');
+        return sb.toString();
+    }
 
     public static ThreadPoolExecutor getRejectionExecutor() {
 
@@ -234,5 +251,30 @@ public enum MiscUtils {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static double distance(GeoPt p1, GeoPt p2) {
+        double latitude = Math.toRadians((double) p1.getLatitude());
+        double longitude = Math.toRadians((double) p1.getLongitude());
+        double otherLatitude = Math.toRadians((double) p2.getLatitude());
+        double otherLongitude = Math.toRadians((double) p2.getLongitude());
+        double deltaLat = latitude - otherLatitude;
+        double deltaLong = longitude - otherLongitude;
+        double a1 = haversin(deltaLat);
+        double a2 = Math.cos(latitude) * Math.cos(otherLatitude) * haversin(deltaLong);
+        return 1.274202E7D * Math.asin(Math.sqrt(a1 + a2));
+    }
+
+    public static double haversin(double delta) {
+        double x = Math.sin(delta / 2.0D);
+        return x * x;
+    }
+
+    public static String getCustomerId(@Nullable User user) {
+
+        if (user == null || TextUtils.isEmpty(user.getId()))
+            throw new IllegalAccessError("Could not authorize");
+
+        return user.getId();
     }
 }

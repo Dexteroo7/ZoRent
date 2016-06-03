@@ -2,8 +2,13 @@ package com.zorent.backend.common;
 
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
 
 /**
+ * Since we won't have a lot of products this model will do
  * Created by dexter on 01/06/2016.
  */
 public enum Tags {
@@ -58,37 +63,49 @@ public enum Tags {
     ////////////////////////////////////////////
     ////////////////////////////////////////////
 
-    private final EnumSet<Tags> children = EnumSet.noneOf(Tags.class);
-    private final EnumSet<Tags> parents = EnumSet.noneOf(Tags.class);
+    private Set<Tags> parents = new HashSet<>();
+    private Set<Tags> children = new HashSet<>();
 
     Tags(Tags... parents) {
+
+        if (parents.length == 0)
+            return;
 
         Collections.addAll(this.parents, parents);
         for (Tags parent : this.parents)
             parent.children.add(this);
     }
 
-    public EnumSet<Tags> getParents() {
-        return parents;
-    }
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
+    static {
 
-    public boolean is(Tags other) {
+        for (Tags tag : values()) {
 
-        if (other == null) {
-            return false;
+            tag.parents = tag.parents.isEmpty() ? EnumSet.noneOf(Tags.class) : EnumSet.copyOf(tag.parents);
+            tag.children = tag.children.isEmpty() ? EnumSet.noneOf(Tags.class) : EnumSet.copyOf(tag.children);
         }
+    }
 
-        for (Tags t = this; t != null; t = t.parent)
-            if (other == t)
-                return PRODUCT;
+    public EnumSet<Tags> getParents() {
 
-        return false;
+        return (EnumSet<Tags>) parents;
+    }
+
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+
+    public boolean isChild(@Nonnull Tags other) {
+
+        return other.children.contains(this);
+    }
+
+    public boolean isParent(@Nonnull Tags other) {
+
+        return this.parents.contains(other);
     }
 
     public EnumSet<Tags> getChildren() {
-        return children;
+
+        return (EnumSet<Tags>) children;
     }
 
     public EnumSet<Tags> getAllChildren() {
@@ -106,4 +123,8 @@ public enum Tags {
             addChildren(child, children);
     }
 
+    @Override
+    public String toString() {
+        return name() + "\nparents : " + MiscUtils.enumToString(parents) + "\nchildren : " + MiscUtils.enumToString(children);
+    }
 }

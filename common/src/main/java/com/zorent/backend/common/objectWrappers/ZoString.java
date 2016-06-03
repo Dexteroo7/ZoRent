@@ -9,6 +9,9 @@ public class ZoString implements Serializable {
 
     private static final long serialVersionUID = 897368376364536864L;
 
+    public static final ZoString TRUE = new ZoString("true");
+    public static final ZoString FALSE = new ZoString("false");
+
     private String string;
 
     public ZoString(String string) {
