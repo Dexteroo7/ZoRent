@@ -18,34 +18,48 @@ public class ZoAuthenticator implements Authenticator {
 
     private static final Logger logger = Logger.getLogger(ZoAuthenticator.class.getName());
 
+    //TODO return null instead of exception ??
     @Override
     public User authenticate(HttpServletRequest request) {
 
         final String token = request.getHeader("Authorization");
-        if (TextUtils.isEmpty(token))
-            throw new IllegalAccessError("Authorization token not found");
+        if (TextUtils.isEmpty(token)) {
+
+            logger.severe("Authorization token not found");
+            return null;
+        }
 
         final String[] splitter = token.split(" ");
-        if (splitter.length != 2 || TextUtils.isEmpty(splitter[0]) || TextUtils.isEmpty(splitter[1]))
-            throw new IllegalAccessError("Invalid Authorization token");
+        if (splitter.length != 2 || TextUtils.isEmpty(splitter[0]) || TextUtils.isEmpty(splitter[1])) {
 
-        final String userId;
+            logger.severe("Invalid Authorization token");
+            return null;
+        }
+
+        logger.info("Authorizing with " + splitter[0] + " " + splitter[1]);
+        final String userId, provider;
 
         try {
 
             final URL url = new URL("https://1-dot-oauth-module-dot-user-thinks.appspot.com/OAuthServlet?accessToken=" + splitter[0] + "&provider=" + splitter[1]);
             final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             userId = reader.readLine();
+            provider = reader.readLine();
         } catch (IOException e) {
+
             e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
             return null;
         }
 
-        if (TextUtils.isEmpty(userId))
-            throw new IllegalAccessError("Could not authorize");
+        if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(provider)) {
 
-        logger.info("Found user " + userId);
+            logger.severe("Could not authorize");
+            return null;
+        }
+
+        logger.info("Found user " + userId + " " + provider);
         //userId is known here
-        return new User(userId, "");
+        return new User(userId, provider);
     }
 }

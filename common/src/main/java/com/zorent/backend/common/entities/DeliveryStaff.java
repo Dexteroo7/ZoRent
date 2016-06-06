@@ -29,6 +29,60 @@ public class DeliveryStaff {
 
     public Email googleRegistration;
 
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public StaffTag getTag() {
+        return tag;
+    }
+
+    public void setTag(StaffTag tag) {
+        this.tag = tag;
+    }
+
+    public PhoneNumber getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(PhoneNumber contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public Email getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(Email contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Email getGoogleRegistration() {
+        return googleRegistration;
+    }
+
+    public void setGoogleRegistration(Email googleRegistration) {
+        this.googleRegistration = googleRegistration;
+    }
+
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+
     public enum StaffTag {
 
         QUALITY_MANAGER,

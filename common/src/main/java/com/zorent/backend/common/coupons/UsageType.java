@@ -3,7 +3,7 @@ package com.zorent.backend.common.coupons;
 import com.google.common.base.Predicate;
 import com.zorent.backend.common.Tags;
 import com.zorent.backend.common.entities.Order;
-import com.zorent.backend.common.entities.OrderPlacedUsing;
+import com.zorent.backend.common.OrderPlacedUsing;
 
 import javax.annotation.Nullable;
 

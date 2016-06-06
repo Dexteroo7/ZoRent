@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
-  <filter>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
+    <filter>
         <filter-name>ObjectifyFilter</filter-name>
         <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
-  </filter>
-  <filter-mapping>
+    </filter>
+    <filter-mapping>
         <filter-name>ObjectifyFilter</filter-name>
         <url-pattern>/*</url-pattern>
-  </filter-mapping>
-   <servlet>
+    </filter-mapping>
+    //////////////////////////////////
+    <listener>
+        <listener-class>com.zorent.backend.client.ObjectifyLoaderContextListener</listener-class>
+    </listener>
+    //////////////////////////////////
+    <servlet>
         <servlet-name>SystemServiceServlet</servlet-name>
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
         <init-param>
             <param-name>services</param-name>
-            <param-value>com.zorent.backend.client.RegistrationEndpoint, com.zorent.backend.client.MessagingEndpoint</param-value>
+            <param-value>
+                com.zorent.backend.client.cartEndpoints.CartEndpoints,
+                com.zorent.backend.client.userEndpoints.UserEndpoints
+            </param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

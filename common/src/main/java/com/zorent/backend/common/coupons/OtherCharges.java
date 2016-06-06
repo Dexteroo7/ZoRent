@@ -7,5 +7,5 @@ public enum OtherCharges {
 
     DELIVERY_FEE,
     INSTALLATION_FEE,
-    SERVICE_CHARGE
+    SERVICE_FEE
 }

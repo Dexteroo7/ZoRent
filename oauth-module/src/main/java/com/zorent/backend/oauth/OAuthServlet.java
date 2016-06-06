@@ -9,9 +9,9 @@ package com.zorent.backend.oauth;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.zorent.backend.common.TextUtils;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.concurrent.SynchronousQueue;
 import java.util.logging.Logger;
 
@@ -22,19 +22,20 @@ import javax.servlet.http.HttpServletResponse;
 public class OAuthServlet extends HttpServlet {
 
     private static Logger logger = Logger.getLogger(OAuthServlet.class.getName());
+    private static final String [] FAILED = new String[]{"", ""};
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         final String accessToken = req.getParameter("accessToken");
         final String provider = req.getParameter("provider");
-        if (TextUtils.isEmpty(accessToken) || TextUtils.isEmpty(provider))
+        if (isEmpty(accessToken) || isEmpty(provider))
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Authorization token");
 
         logger.info(accessToken);
         logger.info(provider);
 
-        final SynchronousQueue<String> waiter = new SynchronousQueue<>();
+        final SynchronousQueue<String[]> waiter = new SynchronousQueue<>();
 
         final Firebase.AuthResultHandler authResultHandler = new Firebase.AuthResultHandler() {
             @Override
@@ -42,9 +43,9 @@ public class OAuthServlet extends HttpServlet {
 
                 try {
                     if (accessToken.equals(authData.getToken()))
-                        waiter.put(authData.getUid());
+                        waiter.put(new String[]{authData.getUid(), authData.getProvider()});
                     else
-                        waiter.put("");
+                        waiter.put(FAILED);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -55,7 +56,7 @@ public class OAuthServlet extends HttpServlet {
 
                 logger.severe(firebaseError.toString());
                 try {
-                    waiter.put("");
+                    waiter.put(FAILED);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -71,8 +72,13 @@ public class OAuthServlet extends HttpServlet {
 
         resp.setContentType("text/plain");
 
+        final PrintWriter printWriter = new PrintWriter(resp.getOutputStream());
+
         try {
-            resp.getWriter().println(waiter.take());
+
+            final String [] toWrite = waiter.take();
+            printWriter.println(toWrite[0]);
+            printWriter.println(toWrite[1]);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {

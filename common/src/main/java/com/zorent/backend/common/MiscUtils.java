@@ -1,6 +1,7 @@
 package com.zorent.backend.common;
 
 import com.google.api.server.spi.auth.common.User;
+import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.GeoPt;
 import com.google.common.base.Function;
@@ -254,6 +255,7 @@ public enum MiscUtils {
     }
 
     public static double distance(GeoPt p1, GeoPt p2) {
+
         double latitude = Math.toRadians((double) p1.getLatitude());
         double longitude = Math.toRadians((double) p1.getLongitude());
         double otherLatitude = Math.toRadians((double) p2.getLatitude());
@@ -270,11 +272,19 @@ public enum MiscUtils {
         return x * x;
     }
 
-    public static String getCustomerId(@Nullable User user) {
+    public static String getCustomerId(@Nullable User user) throws UnauthorizedException {
 
         if (user == null || TextUtils.isEmpty(user.getId()))
-            throw new IllegalAccessError("Could not authorize");
+            throw new UnauthorizedException("Could not authorize");
 
         return user.getId();
+    }
+
+    public static String getProvider(@Nullable User user) throws UnauthorizedException {
+
+        if (user == null || TextUtils.isEmpty(user.getEmail()))
+            throw new UnauthorizedException("Could not authorize");
+
+        return user.getEmail();
     }
 }

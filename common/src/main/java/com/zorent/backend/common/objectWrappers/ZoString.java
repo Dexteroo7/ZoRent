@@ -12,21 +12,26 @@ public class ZoString implements Serializable {
     public static final ZoString TRUE = new ZoString("true");
     public static final ZoString FALSE = new ZoString("false");
 
-    private String string;
+    private final String string;
 
-    public ZoString(String string) {
+    public static ZoString of(String string) {
+        return new ZoString(string);
+    }
+
+    public static ZoString of(Object string) {
+        return new ZoString(string + "");
+    }
+
+    private ZoString(String string) {
         this.string = string;
     }
 
-    public ZoString() {
+    private ZoString() {
+        throw new IllegalAccessError("Can't access");
     }
 
     public String getString() {
         return string;
-    }
-
-    public void setString(String string) {
-        this.string = string;
     }
 
     @Override

@@ -1,7 +1,10 @@
 package com.zorent.backend.common.objectWrappers;
 
+import com.google.common.primitives.Longs;
+
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by dexter on 28/10/15.
@@ -10,21 +13,34 @@ public final class LongArray implements Serializable {
 
     private static final long serialVersionUID = 8973683767349863L;
 
-    public long[] longs;
+    public static LongArray of(long[] longs) {
+        return new LongArray(longs);
+    }
 
-    public LongArray(long[] longs) {
+    private long[] longs;
+
+    private LongArray(long[] longs) {
         this.longs = longs;
     }
 
-    public LongArray() {
+    private LongArray() {
+
+    }
+
+    private void setLongs(long[] longs) {
+        this.longs = longs;
     }
 
     public long[] getLongs() {
         return longs;
     }
 
-    public void setLongs(long[] longs) {
-        this.longs = longs;
+    public List<Long> asList() {
+        return Longs.asList(longs);
+    }
+
+    public Iterable<Long> asIterable() {
+        return Longs.asList(longs);
     }
 
     @Override
