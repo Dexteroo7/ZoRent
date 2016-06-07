@@ -1,4 +1,4 @@
-package com.zorent.backend.client.cartEndpoints;
+package com.zorent.backend.client.cart;
 
 import com.zorent.backend.common.Tags;
 
@@ -11,16 +11,19 @@ final class AddToCart {
     int durationInDays;
     int quantity;
 
-    /**
-     * @param productTag     which item is being added to cart
-     * @param durationInDays rental duration
-     * @param quantity       how many items
-     */
-    AddToCart(Tags productTag, int durationInDays, int quantity) {
-        this.productTag = productTag;
-        this.durationInDays = durationInDays;
-        this.quantity = quantity;
+    private AddToCart() {
     }
+
+//    /**
+//     * @param productTag     which item is being added to cart
+//     * @param durationInDays rental duration
+//     * @param quantity       how many items
+//     */
+//    AddToCart(Tags productTag, int durationInDays, int quantity) {
+//        this.productTag = productTag;
+//        this.durationInDays = durationInDays;
+//        this.quantity = quantity;
+//    }
 
     private Tags getProductTag() {
         return productTag;

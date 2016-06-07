@@ -1,4 +1,4 @@
 include ':client-module'
-//include ':business-module'
+include ':business-module'
 include ':oauth-module'
 include ':common'

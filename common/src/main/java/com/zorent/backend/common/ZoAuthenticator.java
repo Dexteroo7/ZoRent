@@ -41,7 +41,7 @@ public class ZoAuthenticator implements Authenticator {
 
         try {
 
-            final URL url = new URL("https://1-dot-oauth-module-dot-user-thinks.appspot.com/OAuthServlet?accessToken=" + splitter[0] + "&provider=" + splitter[1]);
+            final URL url = new URL("https://oauth-module-dot-zo-rent.appspot.com/OAuthServlet?accessToken=" + splitter[0] + "&provider=" + splitter[1]);
             final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             userId = reader.readLine();
             provider = reader.readLine();
@@ -51,6 +51,8 @@ public class ZoAuthenticator implements Authenticator {
             logger.severe(e.getLocalizedMessage());
             return null;
         }
+
+        logger.info("OAuth response " + userId + " " + provider);
 
         if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(provider)) {
 

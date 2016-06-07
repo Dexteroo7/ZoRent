@@ -1,4 +1,4 @@
-package com.zorent.backend.client.userEndpoints;
+package com.zorent.backend.client.user;
 
 import com.google.api.server.spi.auth.common.User;
 import com.google.api.server.spi.config.Api;
@@ -24,8 +24,8 @@ import static com.zorent.backend.common.OfyService.ofy;
         version = "v1",
         authenticators = {ZoAuthenticator.class},
         namespace = @ApiNamespace(
-                ownerDomain = "userEndpoints.client.backend.zorent.com",
-                ownerName = "userEndpoints.client.backend.zorent.com",
+                ownerDomain = "user.client.backend.zorent.com",
+                ownerName = "user.client.backend.zorent.com",
                 packagePath = ""
         )
 )
@@ -34,7 +34,9 @@ public class UserEndpoints {
     private static final Logger LOGGER = Logger.getLogger(UserEndpoints.class.getName());
 
     @SuppressWarnings("ResourceParameter")
-    @ApiMethod(name = "createUser")
+    @ApiMethod(
+            name = "createUser",
+            httpMethod = ApiMethod.HttpMethod.POST)
     public ZoString createUser(@Nullable User user,
                                CreateUser createUser) throws UnauthorizedException {
 
@@ -47,7 +49,8 @@ public class UserEndpoints {
         customer.setId(customerId);
         customer.setProvider(provider);
 
+        LOGGER.info("Registering user " + createUser.fullName + " " + createUser.email);
+
         return ZoString.of(ofy().save().entity(createUser).now().getString());
     }
-
 }

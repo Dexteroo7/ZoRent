@@ -272,6 +272,12 @@ public enum MiscUtils {
         return x * x;
     }
 
+    public static void checkUser(@Nullable User user) throws UnauthorizedException {
+
+        if (user == null)
+            throw new UnauthorizedException("Could not authorize");
+    }
+
     public static String getCustomerId(@Nullable User user) throws UnauthorizedException {
 
         if (user == null || TextUtils.isEmpty(user.getId()))

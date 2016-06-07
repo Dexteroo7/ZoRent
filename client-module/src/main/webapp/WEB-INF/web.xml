@@ -19,8 +19,8 @@
         <init-param>
             <param-name>services</param-name>
             <param-value>
-                com.zorent.backend.client.cartEndpoints.CartEndpoints,
-                com.zorent.backend.client.userEndpoints.UserEndpoints
+                com.zorent.backend.client.cart.CartEndpoints,
+                com.zorent.backend.client.user.UserEndpoints
             </param-value>
         </init-param>
     </servlet>

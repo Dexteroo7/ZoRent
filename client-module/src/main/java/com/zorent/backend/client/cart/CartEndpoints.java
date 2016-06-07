@@ -1,4 +1,4 @@
-package com.zorent.backend.client.cartEndpoints;
+package com.zorent.backend.client.cart;
 
 import com.google.api.server.spi.auth.common.User;
 import com.google.api.server.spi.config.Api;
@@ -34,8 +34,8 @@ import static com.zorent.backend.common.OfyService.ofy;
         version = "v1",
         authenticators = {ZoAuthenticator.class},
         namespace = @ApiNamespace(
-                ownerDomain = "cartEndpoints.client.backend.zorent.com",
-                ownerName = "cartEndpoints.client.backend.zorent.com",
+                ownerDomain = "cart.client.backend.zorent.com",
+                ownerName = "cart.client.backend.zorent.com",
                 packagePath = ""
         )
 )
@@ -180,5 +180,4 @@ public class CartEndpoints {
         //return the costing after checking out
         return toReturn;
     }
-
 }

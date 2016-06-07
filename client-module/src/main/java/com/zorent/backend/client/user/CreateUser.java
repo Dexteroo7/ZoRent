@@ -1,4 +1,4 @@
-package com.zorent.backend.client.userEndpoints;
+package com.zorent.backend.client.user;
 
 import com.google.appengine.api.datastore.Email;
 

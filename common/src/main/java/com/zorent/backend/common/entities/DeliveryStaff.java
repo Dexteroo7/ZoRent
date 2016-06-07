@@ -25,59 +25,84 @@ public class DeliveryStaff {
 
     public Email contactEmail;
 
-    public String name;
+    public String fullName;
 
-    public Email googleRegistration;
+    private DeliveryStaff() {
+    }
 
     ////////////////////////////////////////////
     ////////////////////////////////////////////
 
-    public Long getId() {
+    private Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    private void setId(Long id) {
         this.id = id;
     }
 
-    public StaffTag getTag() {
+    private StaffTag getTag() {
         return tag;
     }
 
-    public void setTag(StaffTag tag) {
+    private void setTag(StaffTag tag) {
         this.tag = tag;
     }
 
-    public PhoneNumber getContactNumber() {
+    private PhoneNumber getContactNumber() {
         return contactNumber;
     }
 
-    public void setContactNumber(PhoneNumber contactNumber) {
+    private void setContactNumber(PhoneNumber contactNumber) {
         this.contactNumber = contactNumber;
     }
 
-    public Email getContactEmail() {
+    private Email getContactEmail() {
         return contactEmail;
     }
 
-    public void setContactEmail(Email contactEmail) {
+    private void setContactEmail(Email contactEmail) {
         this.contactEmail = contactEmail;
     }
 
-    public String getName() {
-        return name;
+    private String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    private void setFullName(String name) {
+        this.fullName = name;
     }
 
-    public Email getGoogleRegistration() {
-        return googleRegistration;
-    }
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
 
-    public void setGoogleRegistration(Email googleRegistration) {
-        this.googleRegistration = googleRegistration;
+    public static final class Builder {
+
+        private final DeliveryStaff deliveryStaff = new DeliveryStaff();
+
+        public Builder setTag(StaffTag tag) {
+            deliveryStaff.setTag(tag);
+            return this;
+        }
+
+        public Builder setContactNumber(PhoneNumber contactNumber) {
+            deliveryStaff.setContactNumber(contactNumber);
+            return this;
+        }
+
+        public Builder setContactEmail(String contactEmail) {
+            deliveryStaff.setContactEmail(new Email(contactEmail));
+            return this;
+        }
+
+        public Builder setName(String fullName) {
+            deliveryStaff.setFullName(fullName);
+            return this;
+        }
+
+        public DeliveryStaff build() {
+            return deliveryStaff;
+        }
     }
 
     ////////////////////////////////////////////
